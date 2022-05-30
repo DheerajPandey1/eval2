@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      #navbar{
+        height:30px;
+width:auto;
+border:1px solid black;  
+margin-left:1250px;
+      }
+a{
+  padding-left: 7px;
+  font-size: 20px;
+  color:black;
+  font-weight:bolder;
+}
+#menu{
+  margin-top: 90px;;
+height: 100px;
+width: 100px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(100px,auto);
+  gap: 30px;
+}
+img{
+  margin-left: 50px;
+  height: 300px;
+  width: 300px;
+ 
+ 
+}
+p{
+ text-align: center;
+ font-size: 20px;
+}
+
+button{
+  margin-left:130px;
+}
+
+    </style>
+  </head>
+
+  <body>
+    <div id="navbar">
+      <div>
+        <a>Login</a>
+        <a>Signup</a>
+        <a>Items</a>
+        <a>Bucket</a>
+      </div>
+      <!--Add navbar divs here-->
+      <!-- Link to bucket.html -->
+      <div id="coffee_count">
+
+        <!--Show total number of coffee added to bucket here, do not add anything only Total count. Not even "Count - 5" but like this "5" -->
+      </div>
+    </div>
+
+    <div id="menu">
+      <!--Show coffee list here in grid format-->
+      <!-- add an add to bucket button to each item, give it HTML id as 'add_to_bucket' -->
+    </div>
+  </body>
+</html>
+
+<script src="./scripts/index.js">
+
+let menu=document.getElementById("menu")
+ items=[]
+const url =`https://masai-mock-api.herokuapp.com/coffee/menu`;
+  fetch(url)
+  .then(function(responce){
+  return responce.json();
+})
+
+.then(function(responce){
+  appendData(responce.menu.data)
+  // console.log(responce)
+
+})
+
+
+ .catch(function(err){
+  console.log(err)
+ })
+   
+
+ function appendData(data){
+   data.forEach(function(el) {
+     
+  
+ 
+  let cont=document.createElement("div")
+ 
+  let img=document.createElement("img")
+ img.src=el.image;
+
+ let title=document.createElement("p")
+ title.innerText=el.title;
+
+ let price=document.createElement("p")
+ price.innerText=el.price;
+let btn=document.createElement("button")
+btn.innerText="Add to Bucket"
+btn.addEventListener("click",function(){
+addToCart(el);
+cart(items)
+
+})
+
+ cont.append(img,title,price,btn)
+ menu.append(cont)
+
+});
+}
+
+function addToCart(el){
+  function Item(image,name, price){
+    (this.image=image),
+  (this.name=name),
+  (this.price=price)
+ console.log(Item)
+  }
+ 
+
+
+let item = new Item(el.image,el.name,el.price)
+items.push(item)
+localStorage.setItem("coffee",JSON.stringify(items))
+}
+function cart(items){
+  let coffee_count=document.querySelector("#coffee_count")
+  coffee_count=innerText=items.length
+}
+
+cart(items)
+
+
+</script>
